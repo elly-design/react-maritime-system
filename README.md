@@ -1,11 +1,11 @@
-# Student Management System
+# Maritime sfaff Registration System
 
-A React application for managing student information, including registration and data management.
+A React application for managing staff information, including registration and data management.
 
 ## Features
 
-- Student Registration
-- Student Data Management (Add, Update, Delete, Import)
+- Staff Registration
+- Staff Data Management (Add, Update, Delete, Import)
 - Responsive UI with Tailwind CSS
 - React Router for navigation
 
@@ -13,8 +13,8 @@ A React application for managing student information, including registration and
 
 The application includes two main screens:
 
-1. **Student Registration** - Allows students to register with their ID and password
-2. **Student Data Management** - Provides an interface for administrators to manage student records
+1. **Staff Registration** - Allows staff to register with their ID and password
+2. **Staff Data Management** - Provides an interface for administrators to manage staff records
 
 ## Getting Started
 
@@ -46,8 +46,8 @@ The application includes two main screens:
 
 - `src/components/` - React components
   - `Home.tsx` - Home page component
-  - `StudentRegistration.tsx` - Student registration form
-  - `StudentDataManagement.tsx` - Student data management interface
+  - `StaffRegistration.tsx` - Staff registration form
+  - `StaffDataManagement.tsx` - Staff data management interface
 - `src/App.tsx` - Main application component with routing
 - `src/main.tsx` - Application entry point
 
