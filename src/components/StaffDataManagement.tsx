@@ -1,55 +1,57 @@
 import React, { useState } from 'react';
 
-interface Student {
-  id: string;
+interface StaffMember {
+  idPassport: string;
   fullName: string;
   gender: string;
   phoneNumber: string;
-  batch: string;
+  vesselType: string;
   status: string;
 }
 
-export default function StudentDataManagement() {
-  const [students, setStudents] = useState<Student[]>([]);
-  const [selectedStudent, setSelectedStudent] = useState<Student | null>(null);
-  const [formData, setFormData] = useState<Student>({
-    id: '',
+export default function StaffDataManagement() {
+  const [staffMembers, setStaffMembers] = useState<StaffMember[]>([]);
+  const [selectedStaff, setSelectedStaff] = useState<StaffMember | null>(null);
+  const [formData, setFormData] = useState<StaffMember>({
+    idPassport: '',
     fullName: '',
     gender: '',
     phoneNumber: '',
-    batch: '',
-    status: ''
+    vesselType: '',
+    status: '',
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
   const handleAdd = () => {
-    if (!formData.id) return;
-    
-    const newStudent = { ...formData };
-    setStudents(prev => [...prev, newStudent]);
+    if (!formData.idPassport) return;
+
+    const newStaff = { ...formData };
+    setStaffMembers((prev) => [...prev, newStaff]);
     handleClear();
   };
 
   const handleDelete = () => {
-    if (!selectedStudent) return;
-    
-    setStudents(prev => prev.filter(student => student.id !== selectedStudent.id));
+    if (!selectedStaff) return;
+
+    setStaffMembers((prev) =>
+      prev.filter((staff) => staff.idPassport !== selectedStaff.idPassport)
+    );
     handleClear();
   };
 
   const handleUpdate = () => {
-    if (!selectedStudent || !formData.id) return;
-    
-    setStudents(prev => 
-      prev.map(student => 
-        student.id === selectedStudent.id ? formData : student
+    if (!selectedStaff || !formData.idPassport) return;
+
+    setStaffMembers((prev) =>
+      prev.map((staff) =>
+        staff.idPassport === selectedStaff.idPassport ? formData : staff
       )
     );
     handleClear();
@@ -57,41 +59,53 @@ export default function StudentDataManagement() {
 
   const handleClear = () => {
     setFormData({
-      id: '',
+      idPassport: '',
       fullName: '',
       gender: '',
       phoneNumber: '',
-      batch: '',
-      status: ''
+      vesselType: '',
+      status: '',
     });
-    setSelectedStudent(null);
+    setSelectedStaff(null);
   };
 
   const handleImport = () => {
-    // This would typically handle file import functionality
     console.log('Import functionality');
-    
-    // For demo purposes, let's add some sample data
-    const sampleData: Student[] = [
-      { id: 'STD001', fullName: 'John Doe', gender: 'Male', phoneNumber: '123-456-7890', batch: '2023A', status: 'Active' },
-      { id: 'STD002', fullName: 'Jane Smith', gender: 'Female', phoneNumber: '987-654-3210', batch: '2023B', status: 'Active' },
+
+    const sampleData: StaffMember[] = [
+      {
+        idPassport: 'STAFF001',
+        fullName: 'John Doe',
+        gender: 'Male',
+        phoneNumber: '123-456-7890',
+        vesselType: 'Cargo',
+        status: 'Active',
+      },
+      {
+        idPassport: 'STAFF002',
+        fullName: 'Jane Smith',
+        gender: 'Female',
+        phoneNumber: '987-654-3210',
+        vesselType: 'Passenger',
+        status: 'Active',
+      },
     ];
-    
-    setStudents(prev => [...prev, ...sampleData]);
+
+    setStaffMembers((prev) => [...prev, ...sampleData]);
   };
 
-  const selectStudent = (student: Student) => {
-    setSelectedStudent(student);
-    setFormData(student);
+  const selectStaff = (staff: StaffMember) => {
+    setSelectedStaff(staff);
+    setFormData(staff);
   };
 
   return (
     <div className="p-6 max-w-4xl mx-auto bg-white rounded-lg shadow-md">
-      <h1 className="text-xl font-semibold mb-4">Student's Data</h1>
-      
-      {/* Student Data Display Area */}
+      <h1 className="text-xl font-semibold mb-4">Staff Members Data</h1>
+
+      {/* Staff Data Display Area */}
       <div className="mb-6 bg-gray-200 rounded-md p-4 min-h-[200px] max-h-[300px] overflow-y-auto">
-        {students.length > 0 ? (
+        {staffMembers.length > 0 ? (
           <table className="w-full">
             <thead>
               <tr className="bg-gray-300">
@@ -99,47 +113,57 @@ export default function StudentDataManagement() {
                 <th className="p-2 text-left">Name</th>
                 <th className="p-2 text-left">Gender</th>
                 <th className="p-2 text-left">Phone</th>
-                <th className="p-2 text-left">Batch</th>
+                <th className="p-2 text-left">Vessel Type</th>
                 <th className="p-2 text-left">Status</th>
               </tr>
             </thead>
             <tbody>
-              {students.map((student) => (
-                <tr 
-                  key={student.id} 
-                  className={`hover:bg-gray-100 cursor-pointer ${selectedStudent?.id === student.id ? 'bg-blue-100' : ''}`}
-                  onClick={() => selectStudent(student)}
+              {staffMembers.map((staff) => (
+                <tr
+                  key={staff.idPassport}
+                  className={`hover:bg-gray-100 cursor-pointer ${
+                    selectedStaff?.idPassport === staff.idPassport
+                      ? 'bg-blue-100'
+                      : ''
+                  }`}
+                  onClick={() => selectStaff(staff)}
                 >
-                  <td className="p-2">{student.id}</td>
-                  <td className="p-2">{student.fullName}</td>
-                  <td className="p-2">{student.gender}</td>
-                  <td className="p-2">{student.phoneNumber}</td>
-                  <td className="p-2">{student.batch}</td>
-                  <td className="p-2">{student.status}</td>
+                  <td className="p-2">{staff.idPassport}</td>
+                  <td className="p-2">{staff.fullName}</td>
+                  <td className="p-2">{staff.gender}</td>
+                  <td className="p-2">{staff.phoneNumber}</td>
+                  <td className="p-2">{staff.vesselType}</td>
+                  <td className="p-2">{staff.status}</td>
                 </tr>
               ))}
             </tbody>
           </table>
         ) : (
-          <div className="text-center text-gray-500 py-10">No student data available</div>
+          <div className="text-center text-gray-500 py-10">
+            No staff data available
+          </div>
         )}
       </div>
-      
+
       {/* Form Fields */}
       <div className="grid grid-cols-3 gap-4 mb-4">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">STUDENT ID</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            STAFF ID
+          </label>
           <input
             type="text"
-            name="id"
-            value={formData.id}
+            name="idPassport"
+            value={formData.idPassport}
             onChange={handleChange}
             className="w-full p-2 bg-gray-200 rounded"
           />
         </div>
-        
+
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Phone Number
+          </label>
           <input
             type="text"
             name="phoneNumber"
@@ -148,11 +172,10 @@ export default function StudentDataManagement() {
             className="w-full p-2 bg-gray-200 rounded"
           />
         </div>
-        
+
         <div className="row-span-3">
-          {/* This would typically be an image upload area */}
           <div className="h-full bg-gray-200 rounded flex items-center justify-center">
-            <button 
+            <button
               onClick={handleImport}
               className="bg-indigo-800 text-white px-4 py-2 rounded hover:bg-indigo-900"
             >
@@ -160,9 +183,11 @@ export default function StudentDataManagement() {
             </button>
           </div>
         </div>
-        
+
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Full name</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Full name
+          </label>
           <input
             type="text"
             name="fullName"
@@ -171,20 +196,24 @@ export default function StudentDataManagement() {
             className="w-full p-2 bg-gray-200 rounded"
           />
         </div>
-        
+
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Batch</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Vessel Type
+          </label>
           <input
             type="text"
-            name="batch"
-            value={formData.batch}
+            name="vesselType"
+            value={formData.vesselType}
             onChange={handleChange}
             className="w-full p-2 bg-gray-200 rounded"
           />
         </div>
-        
+
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Gender</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Gender
+          </label>
           <input
             type="text"
             name="gender"
@@ -193,9 +222,11 @@ export default function StudentDataManagement() {
             className="w-full p-2 bg-gray-200 rounded"
           />
         </div>
-        
+
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Status</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Status
+          </label>
           <input
             type="text"
             name="status"
@@ -205,31 +236,31 @@ export default function StudentDataManagement() {
           />
         </div>
       </div>
-      
+
       {/* Action Buttons */}
       <div className="flex space-x-4">
-        <button 
+        <button
           onClick={handleAdd}
           className="flex-1 bg-indigo-800 text-white py-2 rounded hover:bg-indigo-900"
         >
           ADD
         </button>
-        
-        <button 
+
+        <button
           onClick={handleDelete}
           className="flex-1 bg-indigo-800 text-white py-2 rounded hover:bg-indigo-900"
         >
           Delete
         </button>
-        
-        <button 
+
+        <button
           onClick={handleUpdate}
           className="flex-1 bg-indigo-800 text-white py-2 rounded hover:bg-indigo-900"
         >
           Update
         </button>
-        
-        <button 
+
+        <button
           onClick={handleClear}
           className="flex-1 bg-indigo-800 text-white py-2 rounded hover:bg-indigo-900"
         >

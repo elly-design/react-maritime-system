@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-export default function StudentRegistration() {
+export default function MaritimeStaffRegistrationPortal() {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
-    studentId: '',
-    password: ''
+    idPassport: '',
+    password: '',
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -38,7 +38,7 @@ export default function StudentRegistration() {
             <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd"></path>
           </svg>
         </div>
-        <h1 className="text-2xl font-bold mb-2">Student Registration System</h1>
+        <h1 className="text-2xl font-bold mb-2">Maritime Staff Registration Portal</h1>
       </div>
 
       {/* Right side with form */}
@@ -49,33 +49,34 @@ export default function StudentRegistration() {
 
           <form onSubmit={handleSubmit}>
             <div className="mb-4">
-              <label htmlFor="studentId" className="block text-sm font-medium text-gray-700 mb-1">
-                Student ID
-              </label>
-              <input
-                type="text"
-                id="studentId"
-                name="studentId"
-                value={formData.studentId}
-                onChange={handleChange}
-                className="w-full p-3 bg-gray-100 rounded-md"
-                required
-              />
+            <label htmlFor="idPassport" className="block mb-2 font-semibold">
+                ID / PASSPORT
+                </label>
+                  <input
+                    type="text"
+                    id="idPassport"
+                     name="idPassport"
+                     value={formData.idPassport}
+                     onChange={handleChange}
+                     className="w-full p-3 bg-gray-100 rounded-md"
+                     required
+                      />
+
             </div>
 
             <div className="mb-4">
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
-                Password
+            <label htmlFor="password" className="block mt-4 mb-2 font-semibold">
+              Password
               </label>
-              <input
-                type={showPassword ? "text" : "password"}
-                id="password"
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-                className="w-full p-3 bg-gray-100 rounded-md"
-                required
-              />
+                <input
+                 type="password"
+                 id="password"
+                 name="password"
+                 value={formData.password}
+                 onChange={handleChange}
+                 className="w-full p-3 bg-gray-100 rounded-md"
+                 required
+                 />
             </div>
 
             <div className="flex items-center mb-6">
