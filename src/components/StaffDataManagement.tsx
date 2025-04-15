@@ -69,29 +69,51 @@ export default function StaffDataManagement() {
     setSelectedStaff(null);
   };
 
-  const handleImport = () => {
+  const handleImport = async () => {
     console.log('Import functionality');
 
-    const sampleData: StaffMember[] = [
-      {
-        idPassport: 'STAFF001',
-        fullName: 'John Doe',
-        gender: 'Male',
-        phoneNumber: '123-456-7890',
-        vesselType: 'Cargo',
-        status: 'Active',
-      },
-      {
-        idPassport: 'STAFF002',
-        fullName: 'Jane Smith',
-        gender: 'Female',
-        phoneNumber: '987-654-3210',
-        vesselType: 'Passenger',
-        status: 'Active',
-      },
-    ];
 
-    setStaffMembers((prev) => [...prev, ...sampleData]);
+    console.log('Fetching staff data from the backend...');
+    
+    try {
+      // Fetch data from your backend API
+      const response = await fetch('https://your-backend-api.com/staff'); // Replace with your real API endpoint
+      const data: StaffMember[] = await response.json();
+  
+      // Validate and process the data
+      const validatedData = data.map((staff) => {
+        // Validate phone number (must start with a country code)
+        const phoneRegex = /^\+\d{1,3}\d{4,14}$/; // Example: +1234567890
+        if (!phoneRegex.test(staff.phoneNumber)) {
+          throw new Error(`Invalid phone number for ${staff.fullName}: ${staff.phoneNumber}`);
+        }
+  
+        // Validate ID/Passport format
+        const passportRegex = /^[A-Za-z]{2}\d{6}$/; // Example: AB123456
+        const idRegex = /^\d{8}$/; // Example: 12345678
+        if (!passportRegex.test(staff.idPassport) && !idRegex.test(staff.idPassport)) {
+          throw new Error(`Invalid ID/Passport format for ${staff.fullName}: ${staff.idPassport}`);
+        }
+  
+        // Ensure status is either "Active" or "Pending"
+        if (staff.status !== 'Active' && staff.status !== 'Pending') {
+          staff.status = 'Pending'; // Default to "Pending" if invalid
+        }
+  
+        return staff;
+      });
+  
+      // Update the state with validated data
+      setStaffMembers((prev) => [...prev, ...validatedData]);
+      console.log('Staff data imported successfully:', validatedData);
+    } catch (error) {
+      console.error('Error importing staff data:', error);
+      if (error instanceof Error) {
+        alert(`Error importing staff data: ${error.message}`);
+      } else {
+        alert('An unknown error occurred while importing staff data.');
+      }
+    }
   };
 
   const selectStaff = (staff: StaffMember) => {
@@ -174,15 +196,35 @@ export default function StaffDataManagement() {
         </div>
 
         <div className="row-span-3">
-          <div className="h-full bg-gray-200 rounded flex items-center justify-center">
-            <button
-              onClick={handleImport}
-              className="bg-indigo-800 text-white px-4 py-2 rounded hover:bg-indigo-900"
-            >
-              Import
-            </button>
-          </div>
-        </div>
+  <div className="h-full bg-gray-200 rounded-lg flex flex-col items-center justify-center p-4 shadow-md">
+    <label
+      htmlFor="photo-upload"
+      className="block text-sm font-medium text-gray-700 mb-2"
+    >
+      Upload Staff Photo
+    </label>
+    <input
+      id="photo-upload"
+      type="file"
+      accept="image/*"
+      onChange={(e) => {
+        const file = e.target.files?.[0];
+        if (file) {
+          console.log('Selected file:', file);
+          // You can handle the file upload here
+          // For example, upload it to a server or display a preview
+        }
+      }}
+      className="mb-4 w-full p-2 bg-white border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+    />
+    <button
+      onClick={() => alert('Upload functionality not implemented yet!')}
+      className="bg-indigo-800 text-white px-6 py-2 rounded-lg hover:bg-indigo-900 transition-colors"
+    >
+      Upload Photo
+    </button>
+  </div>
+</div>
 
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -265,6 +307,12 @@ export default function StaffDataManagement() {
           className="flex-1 bg-indigo-800 text-white py-2 rounded hover:bg-indigo-900"
         >
           Clear
+        </button>
+        <button
+          onClick={handleImport}
+          className="flex-1 bg-indigo-800 text-white py-2 rounded hover:bg-indigo-900"
+        >
+          Import
         </button>
       </div>
     </div>

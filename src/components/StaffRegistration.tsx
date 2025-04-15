@@ -21,12 +21,32 @@ export default function MaritimeStaffRegistrationPortal() {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Sign up with:', formData);
-    // Here you would typically handle the registration logic
-    // For demo purposes, navigate to dashboard after registration
-    navigate('/dashboard');
+  
+    try {
+      const response = await fetch('https://your-backend-api.com/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+  
+      if (response.ok) {
+        const data = await response.json();
+        console.log('Registration successful:', data);
+        // Navigate to the dashboard after successful registration
+        navigate('/dashboard');
+      } else {
+        const errorData = await response.json();
+        console.error('Registration failed:', errorData);
+        alert('Registration failed: ' + errorData.message);
+      }
+    } catch (error) {
+      console.error('An error occurred:', error);
+      alert('An error occurred during registration. Please try again.');
+    }
   };
 
   return (
