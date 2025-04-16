@@ -279,42 +279,63 @@ export default function StaffDataManagement() {
         </div>
       </div>
 
-      {/* Action Buttons */}
-      <div className="flex space-x-4">
-        <button
-          onClick={handleAdd}
-          className="flex-1 bg-indigo-800 text-white py-2 rounded hover:bg-indigo-900"
-        >
-          ADD
-        </button>
+     {/* Action Buttons */}
+<div className="flex space-x-4">
+  {/* Add Button */}
+  <button
+    onClick={() => {
+      handleAdd();
+      alert('Staff added successfully!');
+    }}
+    className="flex-1 bg-indigo-800 text-white py-2 rounded hover:bg-indigo-900"
+  >
+    ADD
+  </button>
 
-        <button
-          onClick={handleDelete}
-          className="flex-1 bg-indigo-800 text-white py-2 rounded hover:bg-indigo-900"
-        >
-          Delete
-        </button>
+  {/* Delete Button */}
+  <button
+    onClick={() => {
+      handleDelete();
+      alert('Staff deleted successfully!');
+    }}
+    className="flex-1 bg-indigo-800 text-white py-2 rounded hover:bg-indigo-900"
+  >
+    Delete
+  </button>
 
-        <button
-          onClick={handleUpdate}
-          className="flex-1 bg-indigo-800 text-white py-2 rounded hover:bg-indigo-900"
-        >
-          Update
-        </button>
+  {/* Update Button */}
+  <button
+    onClick={() => {
+      handleUpdate();
+      alert('Staff updated successfully!');
+    }}
+    className="flex-1 bg-indigo-800 text-white py-2 rounded hover:bg-indigo-900"
+  >
+    Update
+  </button>
 
-        <button
-          onClick={handleClear}
-          className="flex-1 bg-indigo-800 text-white py-2 rounded hover:bg-indigo-900"
-        >
-          Clear
-        </button>
-        <button
-          onClick={handleImport}
-          className="flex-1 bg-indigo-800 text-white py-2 rounded hover:bg-indigo-900"
-        >
-          Import
-        </button>
-      </div>
+  {/* Clear Button */}
+  <button
+    onClick={() => {
+      handleClear();
+      alert('Form cleared successfully!');
+    }}
+    className="flex-1 bg-indigo-800 text-white py-2 rounded hover:bg-indigo-900"
+  >
+    Clear
+  </button>
+
+  {/* Import Button */}
+  <button
+    onClick={async () => {
+      await handleImport();
+      alert('Staff data imported successfully!');
+    }}
+    className="flex-1 bg-indigo-800 text-white py-2 rounded hover:bg-indigo-900"
+  >
+    Import
+  </button>
+  </div>
     </div>
   );
 }
